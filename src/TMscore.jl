@@ -131,7 +131,7 @@ function TMscoreResult(output::String)
     )
 end
 
-tmscore_command(options::Vector{String}) = TMscore_jll.TMscore(exe -> Cmd([exe; options]))
+tmscore_command(options::Vector{String}) = Cmd([TMscore_jll.TMscore().exec; options])
 
 """
     tmscore(file1::String, file2::String; options...)
