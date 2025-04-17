@@ -6,8 +6,8 @@
 
 ```julia
 using Pkg
-Pkg.Registry.add(url="https://github.com/MurrellGroup/MurrellGroupRegistry")
-Pkg.add("TMscore")
+pkg"registry add https://github.com/MurrellGroup/MurrellGroupRegistry"
+pkg"add TMscore"
 ```
 
 ## Usage
