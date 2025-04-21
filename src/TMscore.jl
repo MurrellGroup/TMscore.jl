@@ -2,7 +2,7 @@ module TMscore
 
 import TMscore_jll
 
-export tmscore, TMscoreResult
+export tmscore, run_tmscore, TMscoreResult
 
 """
     TMscoreResult
@@ -27,15 +27,14 @@ struct TMscoreResult
     translation::Vector{Float64} # length‐3 translation vector
 end
 
-Base.string(result::TMscoreResult) = result.output
 Base.show(io::IO, result::TMscoreResult) = print(io, TMscoreResult, "(\"\"\"\n", result.output, "\"\"\")")
 
 """
-    parse_tmscore_output(output::String)::TMscoreResult
+    TMscoreResult(output::String)::TMscoreResult
 
 Parse the text printed by TMscore into a `TMscoreResult`.
 """
-function TMscoreResult(output::String)
+function TMscoreResult(output::String)::TMscoreResult
     len1 = 0; len2 = 0; common = 0; rmsd = 0.0
     tms = 0.0; d0 = 0.0
     ms = 0.0; ms_d0 = 0.0
@@ -134,13 +133,13 @@ end
 tmscore_command(options::Vector{String}) = Cmd([TMscore_jll.TMscore().exec; options])
 
 """
-    tmscore(file1::String, file2::String; options...)
-    tmscore(struc1, struc2; options...)
+    run_tmscore(file1::String, file2::String; options...) -> TMscoreResult
+    run_tmscore(struc1, struc2; options...) -> TMscoreResult
 
-Invoke the TMscore binary and parse its output.
+Invoke the TMscore binary and parse its output into a `TMscoreResult` struct.
 
 `BioStructures.StructuralElementOrList` objects can also be used as input,
-and will be written to a temporary file.
+and will be written to a temporary file before processing.
 
 ## Options
 
@@ -187,7 +186,7 @@ and will be written to a temporary file.
 - `atom::String`: 4-character atom name used to represent a residue
 - `mol::String`: Molecule type: RNA or protein
 """
-function tmscore(file1::AbstractString, file2::AbstractString; options...)
+function run_tmscore(file1::AbstractString, file2::AbstractString; options...)
     cmd_vec = String[file1, file2]
     for (key, val) in pairs(options)
         if val === true
@@ -221,10 +220,25 @@ end
 
 write_tempfile(filename::AbstractString, tempdir) = filename
 
-function tmscore(x, y; options...)
+function run_tmscore(arg1, arg2; options...)
     mktempdir() do tempdir
-        tmscore(write_tempfile(x, tempdir), write_tempfile(y, tempdir); options...)
+        run_tmscore(write_tempfile(arg1, tempdir), write_tempfile(arg2, tempdir); options...)
     end
+end
+
+"""
+    tmscore(file1::String, file2::String; options...) -> Float64
+    tmscore(struc1, struc2; options...) -> Float64
+
+Invoke the TMscore binary and return only the TM-score value.
+
+This is a convenience function that calls `run_tmscore` internally and extracts
+the `tmscore` field from the resulting `TMscoreResult`. See `run_tmscore` for
+details on options and handling different input types.
+"""
+function tmscore(arg1, arg2; options...)
+    result = run_tmscore(arg1, arg2; options...)
+    return result.tmscore
 end
 
 end

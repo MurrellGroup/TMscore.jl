@@ -1,7 +1,7 @@
 name = "TMscore"
 uuid = "6e960f36-814a-4ceb-8c87-6ab5da0e9bff"
 authors = ["Anton Oresten"]
-version = "0.0.2"
+version = "0.0.3"
 
 [deps]
 TMscore_jll = "1d8dad79-2f3d-554c-bf22-543753cb6ff4"
@@ -14,7 +14,7 @@ BioStructuresExt = "BioStructures"
 
 [compat]
 BioStructures = "4"
-TMscore_jll = "1.0.0"
+TMscore_jll = "1"
 julia = "1.10"
 
 [extras]
