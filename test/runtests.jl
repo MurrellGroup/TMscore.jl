@@ -14,9 +14,9 @@ using BioStructures
             tmscore("$dir/1CRN.pdb", "$dir/1EJG.pdb"),
             tmscore("$dir/1CRN.cif", "$dir/1EJG.cif"),
             tmscore(struc1, struc2),
-            tmscore(struc1, "$dir/1EJG.cif")],
+            tmscore(struc1, "$dir/1EJG.cif"),
             run_tmscore(struc1, struc2).tmscore
-        )
+        ])
     end
 
 end
