@@ -144,47 +144,47 @@ and will be written to a temporary file before processing.
 ## Options
 
 ### Boolean Flags
-- `c::Bool`: Compare two complex structures with multiple chains 
-- `seq::Bool`: Establish residue equivalence by sequence alignment instead of residue indices
-- `a::Bool`: TM-score normalized by the average length of two structures
-- `m::Bool`: Output TM-score rotation matrix
-- `fast::Bool`: Fast but slightly inaccurate alignment
-- `mirror::Bool`: Whether to align the mirror image of input structure
-- `het::Bool`: Whether to align residues marked as 'HETATM' in addition to 'ATOM'
+- `c::Bool`: Compare two complex structures with multiple chains (default: false)
+- `seq::Bool`: Establish residue equivalence by sequence alignment instead of residue indices (default: false)
+- `a::Bool`: TM-score normalized by the average length of two structures (default: false)
+- `m::Bool`: Output TM-score rotation matrix (default: false)
+- `fast::Bool`: Fast but slightly inaccurate alignment (default: false)
+- `mirror::Bool`: Whether to align the mirror image of input structure (default: false)
+- `het::Bool`: Whether to align residues marked as 'HETATM' in addition to 'ATOM' (default: false)
 
 ### Numeric Options
 - `d::Number`: TM-score scaled by an assigned d0 (in Angstroms)
 - `l::Int`: TM-score normalized by a specific length
-- `ter::Int`: Strings to mark the end of a chain
-  - 0: No TER card
-  - 1: TER separates different chains
-  - 2: TER marks end of each chain
-  - 3: EXIT separates different chains
-- `split::Int`: Whether to split PDB file into multiple chains
-  - 0: Don't split
-  - 1: Split by chain ID
-  - 2: Split by TER records
-- `outfmt::Int`: Output format
-  - 0: Full format
-  - 1: Sequence and structure in fasta format
-  - 2: Matrix format
-  - -1: Compact format
-- `infmt1::Int`: Input format for chain1
-  - -1: Auto-detect
+- `ter::Int`: Strings to mark the end of a chain (default: 3)
+  - 0: end of file
+  - 1: ENDMDL or END
+  - 2: ENDMDL, END, or different chain ID
+  - 3: TER, ENDMDL, END or different chain ID
+- `split::Int`: Whether to split PDB file into multiple chains (default: 0)
+  - 0: treat the whole structure as one single chain
+  - 1: treat each MODEL as a separate chain (-ter should be 0)
+  - 2: treat each chain as a separate chain (-ter should be ≤1)
+- `outfmt::Int`: Output format (default: 0)
+  - 0: full output
+  - 1: fasta format compact output
+  - 2: tabular format very compact output
+  - -1: full output, but without version or citation information
+- `infmt1::Int`: Input format for chain1 (default: -1)
+  - -1: automatically detect PDB or PDBx/mmCIF format
   - 0: PDB format
   - 1: SPICKER format
   - 2: xyz format
-  - 3: FASTA format
-- `infmt2::Int`: Input format for chain2 (same options as infmt1)
+  - 3: PDBx/mmCIF format
+- `infmt2::Int`: Input format for chain2 (default: -1, same options as infmt1)
 
 ### String Options
 - `o::String`: Generate superposition output files with the given prefix
 - `dir::String`: Perform all-against-all alignment among the list of PDB chains
 - `dir1::String`: Use chain2 to search a list of PDB chains
 - `dir2::String`: Use chain1 to search a list of PDB chains
-- `suffix::String`: Add file name suffix to files listed by chain1_list or chain2_list
-- `atom::String`: 4-character atom name used to represent a residue
-- `mol::String`: Molecule type: RNA or protein
+- `suffix::String`: Add file name suffix to files listed by chain1_list or chain2_list (default: empty)
+- `atom::String`: 4-character atom name used to represent a residue (default: " CA " for proteins, " C3'" for RNA/DNA)
+- `mol::String`: Molecule type: RNA or protein (default: auto-detect)
 """
 function run_tmscore(file1::AbstractString, file2::AbstractString; options...)
     cmd_vec = String[file1, file2]

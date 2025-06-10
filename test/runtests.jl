@@ -2,6 +2,7 @@ using TMscore
 using Test
 
 using BioStructures
+using ProteinChains
 
 @testset "TMscore.jl" begin
     
@@ -15,7 +16,8 @@ using BioStructures
             tmscore("$dir/1CRN.cif", "$dir/1EJG.cif"),
             tmscore(struc1, struc2),
             tmscore(struc1, "$dir/1EJG.cif"),
-            run_tmscore(struc1, struc2).tmscore
+            run_tmscore(struc1, struc2).tmscore,
+            tmscore(pdb"1CRN", pdb"1EJG"),
         ])
     end
 

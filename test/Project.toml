@@ -1,0 +1,5 @@
+[deps]
+BioStructures = "de9282ab-8554-53be-b2d6-f6c222edabfc"
+ProteinChains = "b8e8f2a5-48d3-44f1-ba0d-c71cb7726ff8"
+TMscore = "6e960f36-814a-4ceb-8c87-6ab5da0e9bff"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

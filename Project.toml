@@ -1,25 +1,21 @@
 name = "TMscore"
 uuid = "6e960f36-814a-4ceb-8c87-6ab5da0e9bff"
 authors = ["Anton Oresten"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 TMscore_jll = "1d8dad79-2f3d-554c-bf22-543753cb6ff4"
 
 [weakdeps]
 BioStructures = "de9282ab-8554-53be-b2d6-f6c222edabfc"
+ProteinChains = "b8e8f2a5-48d3-44f1-ba0d-c71cb7726ff8"
 
 [extensions]
 BioStructuresExt = "BioStructures"
+ProteinChainsExt = "ProteinChains"
 
 [compat]
 BioStructures = "4"
+ProteinChains = "0.7"
 TMscore_jll = "1"
 julia = "1.10"
-
-[extras]
-BioStructures = "de9282ab-8554-53be-b2d6-f6c222edabfc"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test", "BioStructures"]
